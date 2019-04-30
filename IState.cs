@@ -15,7 +15,7 @@ namespace Tic_Tac_Toe
         /// Checking if the current state is a goal state or not.
         /// </summary>
         /// <returns>Bool value that indicates if it is a goal state or not.</returns>
-        bool isGoal();
+        int isGoal();
 
         /// <summary>
         /// Checking if the current state is valid
