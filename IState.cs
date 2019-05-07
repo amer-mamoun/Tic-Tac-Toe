@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tic_Tac_Toe
+namespace TicTacToe
 {
     /// <summary>
     /// Interface to access the state level functions

@@ -4,16 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tic_Tac_Toe
+namespace TicTacToe
 {
     class TicTacToeState : IState, ICloneable
     {
-        const byte BOARDSIZE = 10;
+        public const byte BOARDSIZE = 10;
         const byte winnerCount = 5;
-        int player = 1; // 1 or -1
-        int[,] board = new int[BOARDSIZE, BOARDSIZE]; // game board
-        int x, y = 0; // postion of the last step
 
+        public int player = 1; // 1 or -1
+        public int[,] board = new int[BOARDSIZE, BOARDSIZE]; // game board
+        int x, y = 0; // the position of the last step
 
         public TicTacToeState()
         {
@@ -22,17 +22,20 @@ namespace Tic_Tac_Toe
         }
 
 
+
+
         /// <summary>
         /// 0 - not a goal
         /// -1/1 - player won
-        /// 2 - even 
+        /// 2 - even
         /// </summary>
         /// <returns></returns>
         public int isGoal()
         {
-            //check if any player won
+            // check if a player won
             byte counter = 0;
-            //Horizntal
+
+            // horizontal
             for (int i = x; i > -1; i--)
             {
                 if (player != board[i, y]) break;
@@ -40,14 +43,11 @@ namespace Tic_Tac_Toe
             }
             for (int i = x; i < BOARDSIZE; i++)
             {
-                if (player != board[i, y])
-                    break;
+                if (player != board[i, y]) break;
                 counter++;
             }
             if (counter >= winnerCount) return player;
             counter = 0;
-
-            //Vertical
             for (int i = y; i > -1; i--)
             {
                 if (player != board[x, i]) break;
@@ -55,55 +55,69 @@ namespace Tic_Tac_Toe
             }
             for (int i = y; i < BOARDSIZE; i++)
             {
-                if (player != board[x, i])
+                if (player != board[x, i]) break;
+                counter++;
+            }
+            if (counter >= winnerCount) return player;
+            counter = 0;
+
+            // vertical
+            for (int i = 0; i <= winnerCount; i++)
+            {
+                if (x - i < 0 || y - i < 0)
+                    break;
+
+                if (player != board[x - i, y - i])
                     break;
                 counter++;
+
+            }
+
+            for (int i = 0; i <= winnerCount; i++)
+            {
+                if (x + i > BOARDSIZE || y + i > BOARDSIZE)
+                    break;
+
+                if (player != board[x + i, y + i])
+                    break;
+                counter++;
+
             }
             if (counter >= winnerCount) return player;
             counter = 0;
-
-            // diagonal
-            for (int i = 0; i <= winnerCount; i++)
-            {
-                if (x - i < 0 || y - i < 0) break;
-                if (player != board[x - i, y - i]) break;
-                counter++;
-            }
-            for (int i = 0; i <= winnerCount; i++)
-            {
-                if (x + i > BOARDSIZE || y + i > BOARDSIZE) break;
-                if (player != board[x + i, y + i]) break;
-                counter++;
-            }
-            if (counter >= winnerCount) return player;
-            counter = 0;
-
 
             //diagonal
             for (int i = 0; i <= winnerCount; i++)
             {
-                if (x + i > BOARDSIZE || y - i < 0) break;
-                if (player != board[x + i, y - i]) break;
+                if (x + i > BOARDSIZE || y - i < 0)
+                    break;
+
+                if (player != board[x + i, y - i])
+                    break;
                 counter++;
             }
+
             for (int i = 0; i <= winnerCount; i++)
             {
-                if (x - i < 0 || y + i > BOARDSIZE) break;
-                if (player != board[x - i, y + i]) break;
+                if (x - i < 0 || y + i > BOARDSIZE)
+                    break;
+
+                if (player != board[x - i, y + i])
+                    break;
                 counter++;
             }
             if (counter >= winnerCount) return player;
 
-
             // check if it's a tie
+
             for (int i = 0; i < BOARDSIZE; i++)
             {
                 for (int j = 0; j < BOARDSIZE; j++)
                 {
-                    if (board[i, j] == 0) return 0;
+                    if (board[i, j] == 0) return 2;
                 }
             }
-            return 2;
+            return 0;
 
         }
 
@@ -111,37 +125,40 @@ namespace Tic_Tac_Toe
         {
             int count1 = 0;
             int count2 = 0;
-            //x,y are inside the board
+            // x,y are inside the board
             if (!((x >= 0 && x < BOARDSIZE) && (y >= 0 && y < BOARDSIZE)))
                 return false;
-            // the board only contain -1, 1, 0
+            // the board only contains -1, 1, 0
             for (int i = 0; i < BOARDSIZE; i++)
             {
                 for (int j = 0; j < BOARDSIZE; j++)
                 {
-                    if (board[i, j] < -1 && board[i, j] > 1) return false;
+                    if (board[i, j] < -1 && board[i, j] > 1)
+                        return false;
                     if (board[i, j] == -1)
                         count1++;
                     else if (board[i, j] == 1)
                         count2++;
                 }
             }
-            //difference between -1 and 1 count
-            if (Math.Abs(count1 - count2) > 1) return false;
+            // difference between -1 and 1 count
+            if (Math.Abs(count1 - count2) > 1)
+                return false;
+
             return true;
         }
+
         public int Heuristics
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
+            get { throw new NotImplementedException(); }
         }
+
         public override bool Equals(object obj)
         {
             TicTacToeState otherState = (obj as TicTacToeState);
             if (player != otherState.player) return false;
             if (x != otherState.x || y != otherState.y) return false;
+
             for (int i = 0; i < BOARDSIZE; i++)
             {
                 for (int j = 0; j < BOARDSIZE; j++)
@@ -159,6 +176,7 @@ namespace Tic_Tac_Toe
             newState.player = player;
             newState.x = x;
             newState.y = y;
+
             for (int i = 0; i < BOARDSIZE; i++)
             {
                 for (int j = 0; j < BOARDSIZE; j++)

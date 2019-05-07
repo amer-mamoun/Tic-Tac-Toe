@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Tic_Tac_Toe
+namespace TicTacToe
 {
     static class Program
     {
