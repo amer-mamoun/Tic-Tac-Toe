@@ -18,6 +18,7 @@ namespace TicTacToe
         public GraphNode recommend()
         {
             return null;
+
         }
 
         /// <summary>
