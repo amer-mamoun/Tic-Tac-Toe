@@ -52,6 +52,8 @@ namespace TicTacToe
 
             temp.board[x, y] = currentState.player;
             temp.player = currentState.player * -1;
+            temp.x = x;
+            temp.y = y;
             return temp;
         }
     }

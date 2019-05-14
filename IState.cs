@@ -22,7 +22,7 @@ namespace TicTacToe
         /// </summary>
         /// <returns>Bool value that indicate that the state is valid or not.</returns>
         bool isValid();
-        int Heuristics
+        double Heuristics
         {
             get;
         }

@@ -13,7 +13,7 @@ namespace TicTacToe
 
         public int player = 1; // 1 or -1
         public int[,] board = new int[BOARDSIZE, BOARDSIZE]; // game board
-        int x, y = 0; // the position of the last step
+        public int x, y = 0; // the position of the last step
 
         public TicTacToeState()
         {
@@ -48,6 +48,8 @@ namespace TicTacToe
             }
             if (counter >= winnerCount) return player;
             counter = 0;
+
+            // vertical
             for (int i = y; i > -1; i--)
             {
                 if (player != board[x, i]) break;
@@ -61,7 +63,7 @@ namespace TicTacToe
             if (counter >= winnerCount) return player;
             counter = 0;
 
-            // vertical
+            // first diagonal
             for (int i = 0; i <= winnerCount; i++)
             {
                 if (x - i < 0 || y - i < 0)
@@ -86,7 +88,7 @@ namespace TicTacToe
             if (counter >= winnerCount) return player;
             counter = 0;
 
-            //diagonal
+            // seconed diagonal
             for (int i = 0; i <= winnerCount; i++)
             {
                 if (x + i > BOARDSIZE || y - i < 0)
@@ -148,9 +150,126 @@ namespace TicTacToe
             return true;
         }
 
-        public int Heuristics
+        public double Heuristics
         {
-            get { throw new NotImplementedException(); }
+            get
+            {
+                double h = 0;
+                // horizontal
+                for (int i = x; i > -1; i--)
+                {
+                    if (player == board[i, y])
+                    {
+                        h += 2;
+                    }else if(board[i, y] == 0)
+                    {
+                        h++;
+                    }
+                }
+                for (int i = x; i < BOARDSIZE; i++)
+                {
+                    if (player != board[i, y])
+                    {
+                        if (player == board[i, y])
+                        {
+                            h += 2;
+                        }
+                        else if (board[i, y] == 0)
+                        {
+                            h++;
+                        }
+                    }
+                }
+
+                // vertical
+                for (int i = y; i > -1; i--)
+                {
+                    if (player == board[i, y])
+                    {
+                        h += 2;
+                    }
+                    else if (board[i, y] == 0)
+                    {
+                        h++;
+                    }
+                }
+                for (int i = y; i < BOARDSIZE; i++)
+                {
+                    if (player == board[i, y])
+                    {
+                        h += 2;
+                    }
+                    else if (board[i, y] == 0)
+                    {
+                        h++;
+                    }
+                }
+     
+
+                // first diagonal
+                for (int i = 0; i <= winnerCount; i++)
+                {
+                    if (x - i < 0 || y - i < 0)
+                        break;
+                    if (player == board[x - i, y - i])
+                    {
+                        h += 2;
+                    }
+                    else if (board[x - i, y - i] == 0)
+                    {
+                        h++;
+                    }
+                }
+
+                for (int i = 0; i <= winnerCount; i++)
+                {
+                    if (x + i >= BOARDSIZE || y + i >= BOARDSIZE)
+                        break;
+
+                    if (player == board[x + i, y + i])
+                    {
+                        h += 2;
+                    }
+                    else if (board[x + i, y + i] == 0)
+                    {
+                        h++;
+                    }
+
+                
+
+                }
+
+                // seconed diagonal
+                for (int i = 0; i <= winnerCount; i++)
+                {
+                    if (x + i >= BOARDSIZE || y - i < 0)
+                        break;
+                    if (player == board[x + i, y - i])
+                    {
+                        h += 2;
+                    }
+                    else if (board[x + i, y - i] == 0)
+                    {
+                        h++;
+                    }
+                }
+
+                for (int i = 0; i <= winnerCount; i++)
+                {
+                    if (x - i < 0 || y + i >= BOARDSIZE)
+                        break;
+
+                    if (player == board[x - i, y + i])
+                    {
+                        h += 2;
+                    }
+                    else if (board[x - i, y + i] == 0)
+                    {
+                        h++;
+                    }
+                }
+                return h;
+            }
         }
 
         public override bool Equals(object obj)

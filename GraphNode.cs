@@ -8,10 +8,10 @@ namespace TicTacToe
 {
     class GraphNode
     {
-        TicTacToeState currentState;
+        public TicTacToeState currentState;
         PutOperator currentOperator;
         GraphNode parentNode;
-        double weight = 0;
+        public double weight = 0;
 
         public GraphNode(TicTacToeState newState, PutOperator newOperator, GraphNode parentNode, double newWeight)
         {
